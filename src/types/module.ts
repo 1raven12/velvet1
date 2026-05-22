@@ -3,13 +3,25 @@
 
 import type { Species } from './state';
 
-export type BuilderQuestion = {
+export type MCQuestion = {
+  kind: 'mc';
   id: string;
   prompt: string;
   options: string[];
-  allowCustom?: boolean; // For name fields and similar.
+  allowCustom?: boolean;
   required: boolean;
 };
+
+export type NumberQuestion = {
+  kind: 'number';
+  id: string;
+  prompt: string;
+  min?: number;
+  max?: number;
+  required: boolean;
+};
+
+export type BuilderQuestion = MCQuestion | NumberQuestion;
 
 export type SettingModule = {
   id: string;
@@ -43,7 +55,3 @@ export type TropeModule = {
   emotionalRhythm: string;
   questions: BuilderQuestion[];
 };
-
-// Universal questions apply to every LI regardless of module choice.
-// Populated in Part 2.
-export const UNIVERSAL_QUESTIONS: BuilderQuestion[] = [];
