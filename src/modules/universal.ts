@@ -1,11 +1,14 @@
 import type { BuilderQuestion } from '../types/module';
 import { MIN_PRESENT_DAY_AGE, MAX_PRESENT_DAY_AGE } from './ageGuard';
+import {
+  PERSONALITY_CORE,
+  PERSONALITY_TEXTURE,
+  PERSONALITY_DRIVE,
+  PERSONALITY_VULNERABILITY,
+} from './personality';
 
 // Universal LI questions. Applied to every LI build regardless of archetype/trope/setting.
-// Covers basics: gender, age, physical attributes, core personality, private life.
-// Archetype and trope modules add their own specific questions on top.
-// Name is intentionally archetype-flavored, so it lives in the archetype module.
-// Age floor is 20. See ageGuard.ts.
+// Personality is four axes. See personality.ts.
 export const UNIVERSAL_QUESTIONS: BuilderQuestion[] = [
   {
     kind: 'mc',
@@ -87,50 +90,30 @@ export const UNIVERSAL_QUESTIONS: BuilderQuestion[] = [
   },
   {
     kind: 'mc',
-    id: 'personalityPrimary',
-    prompt: 'Primary personality trait',
-    options: [
-      'Possessive',
-      'Cold',
-      'Golden retriever',
-      'Morally gray',
-      'Emotionally unavailable',
-      'Worshipping',
-      'Sarcastic',
-      'Dominant',
-      'Protective',
-      'Obsessive',
-      'Soft only for you',
-      'Intelligent strategist',
-      'Traumatized',
-      'Flirtatious',
-      'Dangerous',
-      'Emotionally repressed',
-    ],
+    id: 'personalityCore',
+    prompt: 'How does he hold himself?',
+    options: [...PERSONALITY_CORE],
     required: true,
   },
   {
     kind: 'mc',
-    id: 'personalitySecondary',
-    prompt: 'Secondary personality trait',
-    options: [
-      'Possessive',
-      'Cold',
-      'Golden retriever',
-      'Morally gray',
-      'Emotionally unavailable',
-      'Worshipping',
-      'Sarcastic',
-      'Dominant',
-      'Protective',
-      'Obsessive',
-      'Soft only for you',
-      'Intelligent strategist',
-      'Traumatized',
-      'Flirtatious',
-      'Dangerous',
-      'Emotionally repressed',
-    ],
+    id: 'personalityTexture',
+    prompt: 'How does he show what he feels?',
+    options: [...PERSONALITY_TEXTURE],
+    required: true,
+  },
+  {
+    kind: 'mc',
+    id: 'personalityDrive',
+    prompt: 'What makes him dangerous?',
+    options: [...PERSONALITY_DRIVE],
+    required: true,
+  },
+  {
+    kind: 'mc',
+    id: 'personalityVulnerability',
+    prompt: 'What cracks him?',
+    options: [...PERSONALITY_VULNERABILITY],
     required: true,
   },
   {

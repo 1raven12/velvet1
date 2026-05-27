@@ -1,9 +1,15 @@
 import type { BuilderQuestion } from '../types/module';
 import { MIN_PRESENT_DAY_AGE, MAX_PRESENT_DAY_AGE } from './ageGuard';
+import {
+  PERSONALITY_CORE,
+  PERSONALITY_TEXTURE,
+  PERSONALITY_DRIVE,
+  PERSONALITY_VULNERABILITY,
+} from './personality';
 
 // Player builder questions. The player builds themselves before building the LI.
 // MC questions with optional custom input, plus numeric input for age.
-// Age floor is 20. See ageGuard.ts.
+// Personality is four axes. See personality.ts.
 export const PLAYER_QUESTIONS: BuilderQuestion[] = [
   {
     kind: 'mc',
@@ -116,46 +122,30 @@ export const PLAYER_QUESTIONS: BuilderQuestion[] = [
   },
   {
     kind: 'mc',
-    id: 'personalityPrimary',
-    prompt: 'Your primary trait',
-    options: [
-      'Sharp-tongued',
-      'Quietly observant',
-      'Warm and open',
-      'Guarded',
-      'Romantic',
-      'Cynical',
-      'Ambitious',
-      'Loyal',
-      'Independent',
-      'Sensitive',
-      'Bold',
-      'Reserved',
-      'Witty',
-      'Empathetic',
-    ],
+    id: 'personalityCore',
+    prompt: 'How do you hold yourself?',
+    options: [...PERSONALITY_CORE],
     required: true,
   },
   {
     kind: 'mc',
-    id: 'personalitySecondary',
-    prompt: 'Your secondary trait',
-    options: [
-      'Sharp-tongued',
-      'Quietly observant',
-      'Warm and open',
-      'Guarded',
-      'Romantic',
-      'Cynical',
-      'Ambitious',
-      'Loyal',
-      'Independent',
-      'Sensitive',
-      'Bold',
-      'Reserved',
-      'Witty',
-      'Empathetic',
-    ],
+    id: 'personalityTexture',
+    prompt: 'How do you show what you feel?',
+    options: [...PERSONALITY_TEXTURE],
+    required: true,
+  },
+  {
+    kind: 'mc',
+    id: 'personalityDrive',
+    prompt: 'What drives you?',
+    options: [...PERSONALITY_DRIVE],
+    required: true,
+  },
+  {
+    kind: 'mc',
+    id: 'personalityVulnerability',
+    prompt: 'What cracks you?',
+    options: [...PERSONALITY_VULNERABILITY],
     required: true,
   },
 ];

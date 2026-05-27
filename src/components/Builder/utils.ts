@@ -1,5 +1,5 @@
 import type { BuilderQuestion } from '../../types/module';
-import type { PlayerProfile, LIProfile, Gender, Species } from '../../types/state';
+import type { PlayerProfile, LIProfile, Gender, Species, PersonalityProfile } from '../../types/state';
 import type { AnswerMap, BuilderAnswers, BuilderScreen } from '../../types/builder';
 import {
   PLAYER_QUESTIONS,
@@ -75,7 +75,7 @@ export function validateAnswer(question: BuilderQuestion, value: string | number
   if (question.kind === 'number') {
     if (typeof value !== 'number' || !Number.isInteger(value)) return 'Enter a whole number.';
     if (question.id === 'age' && !isValidPresentDayAge(value)) {
-      return `Age must be between 20 and 100.`;
+      return `Age must be between 21 and 100.`;
     }
     if (question.min !== undefined && value < question.min) return `Minimum ${question.min}.`;
     if (question.max !== undefined && value > question.max) return `Maximum ${question.max}.`;
@@ -116,10 +116,12 @@ export function assembleProfiles(answers: BuilderAnswers): { player: PlayerProfi
       piercings: (String(p.piercings ?? 'None').toLowerCase() as 'none' | 'minimal' | 'significant'),
       styleAesthetic: String(p.styleAesthetic ?? 'Minimalist'),
     },
-    personalityTraits: [
-      String(p.personalityPrimary ?? 'Quietly observant'),
-      String(p.personalitySecondary ?? 'Guarded'),
-    ],
+    personality: {
+      core: String(p.personalityCore ?? 'Stoic'),
+      texture: String(p.personalityTexture ?? 'Distant'),
+      drive: String(p.personalityDrive ?? 'Ambitious'),
+      vulnerability: String(p.personalityVulnerability ?? 'Trust-wounded'),
+    } satisfies PersonalityProfile,
     species: 'human' satisfies Species,
     powers: [],
     backstoryAnswers: {},
@@ -139,10 +141,12 @@ export function assembleProfiles(answers: BuilderAnswers): { player: PlayerProfi
       piercings: (String(u.piercings ?? 'Minimal').toLowerCase() as 'none' | 'minimal' | 'significant'),
       styleAesthetic: String(u.styleAesthetic ?? 'Hard rock'),
     },
-    personalityTraits: [
-      String(u.personalityPrimary ?? 'Emotionally repressed'),
-      String(u.personalitySecondary ?? 'Morally gray'),
-    ],
+    personality: {
+      core: String(u.personalityCore ?? 'Cold'),
+      texture: String(u.personalityTexture ?? 'Emotionally repressed'),
+      drive: String(u.personalityDrive ?? 'Obsessive'),
+      vulnerability: String(u.personalityVulnerability ?? 'Shame-haunted'),
+    } satisfies PersonalityProfile,
     species: 'human' satisfies Species,
     powers: [],
     archetypeId: rockstarArchetype.id,

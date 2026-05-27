@@ -19,6 +19,15 @@ export type Species =
   | 'ghost'
   | 'other';
 
+// Personality is structured across four axes. One pick per axis.
+// Drives dialogue generation and scene library variant selection.
+export type PersonalityProfile = {
+  core: string;          // how they present (dominant, cold, sarcastic, etc.)
+  texture: string;       // how they express affection (worshipping, distant, cruel, etc.)
+  drive: string;         // what makes them dangerous (obsessive, ambitious, vengeful, etc.)
+  vulnerability: string; // what cracks them (mother-wounded, trust-broken, etc.)
+};
+
 export type PhysicalAttributes = {
   hairColor: string;
   hairLength: string;
@@ -37,7 +46,7 @@ export type PlayerProfile = {
   gender: Gender;
   profession: string;
   physical: PhysicalAttributes;
-  personalityTraits: string[];
+  personality: PersonalityProfile;
   species: Species;
   // Open list. Player picks from setting-permitted powers in the builder.
   // Examples: 'glamour', 'super speed', 'mind reading', 'shadow walking', 'fire summoning'.
@@ -51,7 +60,7 @@ export type LIProfile = {
   gender: Gender;
   name: string;
   physical: PhysicalAttributes;
-  personalityTraits: string[];
+  personality: PersonalityProfile;
   species: Species;
   powers: string[];
   // Which modules this LI is constructed from.
