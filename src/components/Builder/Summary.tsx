@@ -26,8 +26,8 @@ export function Summary({ answers }: Props) {
             <li>{player.profession}</li>
             <li>{player.physical.hairLength.toLowerCase()} {player.physical.hairColor.toLowerCase()} hair, {player.physical.eyeColor.toLowerCase()} eyes</li>
             <li>{player.physical.bodyType}, {player.physical.heightRange.toLowerCase()}</li>
-            <li>{player.personality.core} · {player.personality.texture}</li>
-            <li>{player.personality.drive} · {player.personality.vulnerability}</li>
+            <li>{player.personality.core}, {player.personality.texture.toLowerCase()}</li>
+            <li className="text-stone-400 italic">Drive: {player.personality.drive.toLowerCase()}</li>
           </ul>
         </div>
 
@@ -38,8 +38,8 @@ export function Summary({ answers }: Props) {
             <li>{li.gender}</li>
             <li>{li.physical.hairLength.toLowerCase()} {li.physical.hairColor.toLowerCase()} hair, {li.physical.eyeColor.toLowerCase()} eyes</li>
             <li>{li.physical.bodyType}, {li.physical.heightRange.toLowerCase()}</li>
-            <li>{li.personality.core} · {li.personality.texture}</li>
-            <li>{li.personality.drive} · {li.personality.vulnerability}</li>
+            <li>{li.personality.core}, {li.personality.texture.toLowerCase()}</li>
+            <li className="text-stone-400 italic">Drive: {li.personality.drive.toLowerCase()}</li>
             <li className="text-stone-400 italic">{li.archetypeAnswers.bandName || ''}</li>
           </ul>
         </div>
