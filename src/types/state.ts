@@ -112,6 +112,17 @@ export type GameState = {
 
   // Which ending has been triggered. Null until end of playthrough.
   endingTriggered: string | null;
+
+  // Scheduling counters used by the dead-time solver.
+  beatsSinceLastLI: number;
+  beatsSinceLastOrbit: number;
+  lastBeatKind: 'li' | 'orbit' | 'pressure' | 'texture' | null;
+  consecutiveSameKind: number;
+  // Per-beat cooldown ledger. Maps beatId to the beat-count when it last fired.
+  beatCooldowns: Record<string, number>;
+  totalBeatsPlayed: number;
+  // Act progress 0..1 across the route. Drives pacing and ending availability.
+  actProgress: number;
 };
 
 export const initialGameState: GameState = {
@@ -132,4 +143,11 @@ export const initialGameState: GameState = {
   lastChoice: null,
   recentBeatsSummary: '',
   endingTriggered: null,
+  beatsSinceLastLI: 0,
+  beatsSinceLastOrbit: 0,
+  lastBeatKind: null,
+  consecutiveSameKind: 0,
+  beatCooldowns: {},
+  totalBeatsPlayed: 0,
+  actProgress: 0,
 };

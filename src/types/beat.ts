@@ -2,7 +2,6 @@ import type { GameState, LIProfile, PlayerProfile } from './state';
 
 // Effect of a single player choice on game state.
 export type ChoiceEffect = {
-  // Numeric mutations to relationship variables. Positive or negative.
   stateMutations: Partial<{
     intimacy: number;
     trust: number;
@@ -10,47 +9,53 @@ export type ChoiceEffect = {
     fracture: number;
     composure: number;
   }>;
-  // Flags to set true after this choice.
   flagsToSet?: Record<string, boolean>;
-  // Knowledge to add for either character.
   knowledgeAdded?: {
     player?: string[];
     li?: string[];
   };
-  // Reveal species. Set either flag true if this choice reveals it.
   speciesReveals?: {
     playerToLI?: boolean;
     liToPlayer?: boolean;
   };
 };
 
-// A single choice option presented to the player.
 export type Choice = {
   id: string;
   label: string;
   effect: ChoiceEffect;
 };
 
-// Beat intent declares what a scene needs to accomplish.
-// It contains no prose. Prose is generated at runtime.
+// Beats come in four kinds. The scheduler uses kind to force variety.
+export type BeatKind = 'li' | 'orbit' | 'pressure' | 'texture';
+
 export type BeatIntent = {
   id: string;
-  // Narrative purpose. e.g. "First reunion after years apart."
+  kind: BeatKind;
   purpose: string;
-  // Plot events that must happen in this beat.
   requiredEvents: string[];
-  // Where each character starts emotionally going into this beat.
   playerEmotionalPosition: string;
   liEmotionalPosition: string;
-  // Sensory or location anchors for the generator.
   sceneAnchors: string[];
-  // Whether this beat qualifies as the next one given current state.
+  // Which orbit character owns this beat, if kind === 'orbit'.
+  orbitCharacterId?: string;
+  // True for door/kiss/fight/morning-after type beats that need full state-aware variants.
+  highVariation: boolean;
+  // Scheduling metadata.
+  cooldown: number;       // beats that must pass before this can fire again
+  maxConsecutive: number; // cap on same-kind beats in a row (engine-enforced too)
+  weight: number;         // priority among qualifying beats (higher wins more often)
+  // Conditions under which this beat qualifies. All present conditions must hold.
   qualifies: (state: GameState) => boolean;
-  // Priority for choosing among multiple qualifying beats.
-  priority: number;
+  // Optional proactive trigger. If set and matched, this beat is force-pulled.
+  triggerWhen?: {
+    beatsSinceLastLI?: number;
+    beatsSinceLastOrbit?: number;
+    minActProgress?: number;
+    flagsRequired?: string[];
+  };
 };
 
-// Everything the prompt assembler needs to generate a beat.
 export type BeatGenerationContext = {
   beat: BeatIntent;
   state: GameState;
@@ -60,10 +65,8 @@ export type BeatGenerationContext = {
   voiceAnchors: string[];
 };
 
-// What comes back from the model after a beat is generated.
 export type GeneratedBeat = {
   prose: string;
   suggestedChoices: Choice[];
-  // Short summary of this beat to be appended to state.recentBeatsSummary.
   proposedSummary: string;
 };
